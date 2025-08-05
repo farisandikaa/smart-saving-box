@@ -22,8 +22,8 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define BUZZER_PIN 12
 
 Servo myServo;
-const unsigned long waktu[] = {300, 300, 300, 300};
-const int sudut[] = {60, 90, 120, 90};
+const unsigned long waktu[] = {1000, 1000};
+const int sudut[] = {0, 60};
 unsigned long lastMillisServo = 0;
 int stateServo = 0;
 
@@ -43,7 +43,7 @@ float total_amount = 0.0;
 
 // Cooldown deteksi uang kertas
 unsigned long lastDetectTime = 0;
-const unsigned long cooldownWaktu = 2000; // 2 detik
+const unsigned long cooldownWaktu = 2000; 
 
 // Toleransi Warna
 const int toleransiR = 10;
@@ -72,7 +72,7 @@ ColorRange ranges[] = {
   //5000bersih2022
   {5000, 174 - toleransiR, 174 + toleransiR, 221 - toleransiG, 221 + toleransiG, 212 - toleransiB, 212 + toleransiB},
   //5000edisi2022butek
-  {5000, 209 - toleransiR, 209 + toleransiR, 262 - toleransiG, 262 + toleransiG, 258 - toleransiB},
+  {5000, 209 - toleransiR, 209 + toleransiR, 262 - toleransiG, 262 + toleransiG, 258 - toleransiB, 258 + toleransiB},
   //2000edisi2022
   {2000, 242 - toleransiR, 242 + toleransiR, 248 - toleransiG, 248 + toleransiG, 231 - toleransiB, 231 + toleransiB},
   //2000edisi2012
@@ -171,13 +171,13 @@ void masukModeDeteksi() {
     EEPROM.commit();
 
     myServo.attach(SERVO_PIN);
-    myServo.write(90);
+    myServo.write(0);
     unsigned long startServoTime = millis();
     while (millis() - startServoTime < 3000) { 
       myServo.write(sudut[stateServo]);
       if (millis() - lastMillisServo >= waktu[stateServo]) {
         lastMillisServo = millis();
-        stateServo = (stateServo + 1) % 4; 
+        stateServo = (stateServo + 1) % 2; 
       }
     }
     myServo.detach();
@@ -320,6 +320,11 @@ void loop() {
       total_amount += nominalKoin;
       EEPROM.put(0, total_amount);
       EEPROM.commit();
+
+      Serial.print("✅ Koin terdeteksi: Rp ");
+      Serial.println(nominalKoin);
+      Serial.print("💰 Saldo total: Rp ");
+      Serial.println((int)total_amount);
 
       lcd.clear();
       lcd.setCursor(0, 0);

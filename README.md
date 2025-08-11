@@ -34,8 +34,14 @@ This project can be implemented as a personal savings tracker or as part of a le
 ## 📦 Installation & Usage
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/username/smart-saving-box.git
+   git clone https://github.com/farisandikaa/smart-saving-box.git
 
 ## 📄 License
 MIT License © 2024 Faris Andika Putra – see the [LICENSE](LICENSE) file for details.
+
+## 📧 Contact
+
+For inquiries, custom orders, or business collaborations:
+Email: farisandika2111@gmail.com
+Phone: +62-896-9347-7040
 
